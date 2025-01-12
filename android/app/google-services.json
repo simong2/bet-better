@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "990360399510",
+    "project_id": "betbetter-2ce5b",
+    "storage_bucket": "betbetter-2ce5b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990360399510:android:5b3047adff2c69cdd6dcb7",
+        "android_client_info": {
+          "package_name": "com.example.bet_better"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVYF7SdvkHMmovCBSRBzwBS26ueNERsnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
