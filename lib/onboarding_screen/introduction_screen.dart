@@ -1,4 +1,5 @@
 import 'package:bet_better/onboarding_screen/intro_component.dart';
+import 'package:bet_better/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -48,7 +49,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      // create user and navigate to home
+      AuthService().signInAnon();
     }
   }
 

@@ -1,4 +1,4 @@
-import 'package:bet_better/onboarding_screen/introduction_screen.dart';
+import 'package:bet_better/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatelessWidget {
@@ -6,6 +6,22 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const IntroductionScreen();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Welcome!'),
+            TextButton(
+              onPressed: () {
+                AuthService().signOutAnon();
+              },
+              child: const Text('Reset account'),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

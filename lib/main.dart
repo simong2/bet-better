@@ -1,5 +1,7 @@
 import 'package:bet_better/firebase_options.dart';
+import 'package:bet_better/onboarding_screen/introduction_screen.dart';
 import 'package:bet_better/screens/main_screen.dart';
+import 'package:bet_better/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -22,11 +24,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Bet Better',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+      // theme: ThemeData(
+      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      //   useMaterial3: true,
+      // ),
+      home: StreamBuilder(
+        stream: AuthService().authStateChange,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const MainScreen();
+          } else {
+            return const IntroductionScreen();
+          }
+        },
       ),
-      home: const MainScreen(),
     );
   }
 }
