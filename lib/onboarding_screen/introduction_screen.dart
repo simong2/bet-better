@@ -42,14 +42,14 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     );
   }
 
-  void _nextPage() {
+  void _nextPage(BuildContext context) {
     if (_currIndex < _pages.length - 1) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
     } else {
-      AuthService().signInAnon();
+      AuthService().signInAnon(context);
     }
   }
 
@@ -94,7 +94,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             child: TextButton(
               style: TextButton.styleFrom(foregroundColor: Colors.blue),
               onPressed: () {
-                _nextPage();
+                _nextPage(context);
               },
               child: Text(
                 _currIndex == _pages.length - 1 ? 'Finish' : 'Next',
