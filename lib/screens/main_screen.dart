@@ -26,6 +26,8 @@ class _MainScreenState extends State<MainScreen> {
     return true;
   }
 
+  bool locked = true;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.sizeOf(context).height;
@@ -37,16 +39,28 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Colors.white,
         // elevation: 1.0,
         title: const Text('BetBetter'),
-        // actions: [
-        //   TextButton(
-        //     onPressed: () {
-        //       // signOutAnon();
-        //       print('deleting account...');
-        //       AuthService().signOutAnon();
-        //     },
-        //     child: const Text('Delete account'),
-        //   )
-        // ],
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                locked = !locked;
+              });
+            },
+            icon: locked
+                ? const Icon(Icons.lock_open_outlined)
+                : const Icon(Icons.lock_outline),
+          ),
+
+          /// delete account
+          // TextButton(
+          //   onPressed: () {
+          //     // signOutAnon();
+          //     print('deleting account...');
+          //     AuthService().signOutAnon();
+          //   },
+          //   child: const Text('Delete account'),
+          // )
+        ],
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -89,16 +103,23 @@ class _MainScreenState extends State<MainScreen> {
                                   // String type
                                   var result = snapshot.data!;
                                   return Center(
-                                    child: Text(
-                                      '\$$result',
-                                      style: TextStyle(
-                                        fontSize: width * .082,
-                                        fontWeight: FontWeight.bold,
-                                        color: ifNeg(result)
-                                            ? Colors.green
-                                            : Colors.red,
-                                      ),
-                                    ),
+                                    child: locked
+                                        ? Text(
+                                            '\$$result',
+                                            style: TextStyle(
+                                              fontSize: width * .082,
+                                              fontWeight: FontWeight.bold,
+                                              color: ifNeg(result)
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ),
+                                          )
+                                        : Text(
+                                            '*****',
+                                            style: TextStyle(
+                                              fontSize: width * .082,
+                                            ),
+                                          ),
                                   );
                                 }
                               },
@@ -131,16 +152,23 @@ class _MainScreenState extends State<MainScreen> {
                                 } else {
                                   var result = snapshot.data!;
                                   return Center(
-                                    child: Text(
-                                      '\$$result',
-                                      style: TextStyle(
-                                        fontSize: width * .082,
-                                        fontWeight: FontWeight.bold,
-                                        color: ifNeg(result)
-                                            ? Colors.green
-                                            : Colors.red,
-                                      ),
-                                    ),
+                                    child: locked
+                                        ? Text(
+                                            '\$$result',
+                                            style: TextStyle(
+                                              fontSize: width * .082,
+                                              fontWeight: FontWeight.bold,
+                                              color: ifNeg(result)
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ),
+                                          )
+                                        : Text(
+                                            '*****',
+                                            style: TextStyle(
+                                              fontSize: width * .082,
+                                            ),
+                                          ),
                                   );
                                 }
                               },
