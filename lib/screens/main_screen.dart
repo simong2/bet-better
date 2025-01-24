@@ -37,7 +37,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        // elevation: 1.0,
+        centerTitle: false,
         title: const Text('BetBetter'),
         actions: [
           IconButton(
@@ -49,6 +49,48 @@ class _MainScreenState extends State<MainScreen> {
             icon: locked
                 ? const Icon(Icons.lock_open_outlined)
                 : const Icon(Icons.lock_outline),
+          ),
+
+          IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) {
+                  return FractionallySizedBox(
+                    heightFactor: 0.9,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(left: 5.0, top: 5.0),
+                              child: Text(
+                                'History',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 30),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(
+                                Icons.close,
+                                size: 35,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+            icon: const Icon(Icons.history),
           ),
 
           /// delete account

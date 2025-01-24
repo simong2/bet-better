@@ -75,4 +75,13 @@ class AuthService {
       return (winnings - losses).toString();
     });
   }
+
+  /*
+  get the 4 user values
+   */
+  Future<int> getUserStat(String mode) async {
+    String uid = _auth.currentUser!.uid;
+    final ref = await _db.collection('users').doc(uid).get();
+    return ref[mode];
+  }
 }
