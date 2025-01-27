@@ -59,7 +59,9 @@ class _MoreAnalysisState extends State<MoreAnalysis> {
             ),
             const SizedBox(height: 15),
             _currChart.elementAt(0) == 'Line Chart'
-                ? const Center(child: Text('Coming soon...'))
+                ? const Center(
+                    child: Text('Coming soon...'),
+                  )
                 : FutureBuilder(
                     future: _getUserStats(),
                     builder: (context, snapshot) {
@@ -122,6 +124,7 @@ class _MoreAnalysisState extends State<MoreAnalysis> {
                                 // leftTitles: const AxisTitles(
                                 //   sideTitles: SideTitles(showTitles: false),
                                 // ),
+
                                 bottomTitles: AxisTitles(
                                   sideTitles: SideTitles(
                                     showTitles: true,
