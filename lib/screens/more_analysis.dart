@@ -1,4 +1,3 @@
-import 'package:bet_better/main.dart';
 import 'package:bet_better/services/firebase_services.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
