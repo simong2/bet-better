@@ -5,6 +5,9 @@ import 'package:bet_better/widgets/enter_amount_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// checks for host device
+import 'dart:io' show Platform;
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -345,23 +348,33 @@ class _MainScreenState extends State<MainScreen> {
                   title: const Text('Deposits'),
                   subtitle: const Text('Money added to account from a bank'),
                   onTap: () {
-                    showDialogPanel(context, _controller, 'deposits');
+                    Platform.isIOS
+                        ? showDialogPanelIos(context, _controller, 'deposits')
+                        : showDialogPaneAndroid(
+                            context, _controller, 'deposits');
                   },
                 ),
                 const Divider(height: 5),
                 ListTile(
-                    title: const Text('Withdrawals'),
-                    subtitle:
-                        const Text('Money withdrawn from the betting app'),
-                    onTap: () {
-                      showDialogPanel(context, _controller, 'withdrawals');
-                    }),
+                  title: const Text('Withdrawals'),
+                  subtitle: const Text('Money withdrawn from the betting app'),
+                  onTap: () {
+                    Platform.isIOS
+                        ? showDialogPanelIos(
+                            context, _controller, 'withdrawals')
+                        : showDialogPaneAndroid(
+                            context, _controller, 'withdrawals');
+                  },
+                ),
                 const Divider(height: 5),
                 ListTile(
                   title: const Text('Winnings'),
                   subtitle: const Text('Money won from bets'),
                   onTap: () {
-                    showDialogPanel(context, _controller, 'winnings');
+                    Platform.isIOS
+                        ? showDialogPanelIos(context, _controller, 'winnings')
+                        : showDialogPaneAndroid(
+                            context, _controller, 'winnings');
                   },
                 ),
                 const Divider(height: 5),
@@ -369,7 +382,9 @@ class _MainScreenState extends State<MainScreen> {
                   title: const Text('Losses'),
                   subtitle: const Text('Money lost through bets'),
                   onTap: () {
-                    showDialogPanel(context, _controller, 'losses');
+                    Platform.isIOS
+                        ? showDialogPanelIos(context, _controller, 'losses')
+                        : showDialogPaneAndroid(context, _controller, 'losses');
                   },
                 ),
               ],
