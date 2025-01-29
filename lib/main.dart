@@ -1,7 +1,7 @@
 import 'package:bet_better/firebase_options.dart';
 import 'package:bet_better/onboarding_screen/introduction_screen.dart';
 import 'package:bet_better/screens/main_screen.dart';
-import 'package:bet_better/services/auth.dart';
+import 'package:bet_better/services/firebase_services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

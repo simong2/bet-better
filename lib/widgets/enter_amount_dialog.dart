@@ -1,4 +1,4 @@
-import 'package:bet_better/services/auth.dart';
+import 'package:bet_better/services/firebase_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +36,7 @@ void showDialogPanel(
               }
               // TODO: if users pastes, make sure that it is also a valid number
               int c = int.parse(controller.text);
-              AuthService().updateUserInput(mode, c);
+              AuthService().updateUserInput(mode, c, false);
               controller.clear();
               Navigator.pop(context);
             },

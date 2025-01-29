@@ -1,16 +1,27 @@
-# bet_better
+# BetBetter
 
-A new Flutter project.
+A Flutter mobile app to track your gambling peformance to better betting habits.
 
-## Getting Started
+## Overview
+1. Simple interface for users to track their gambling activity, including:
+- Deposits
+- Withdrawals
+- Wins from betting apps
+- Losses from betting apps
 
-This project is a starting point for a Flutter application.
+2. Dashboard feature powered by [Fl Chart](https://github.com/imaNNeo/fl_chart), including:
+- Bar Chart
+- Pie Chart
 
-A few resources to get you started if this is your first Flutter project:
+3. Uses Firebase Firestore to store user data, with the ability for users to add/delete entries as needed.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Running the app
+1. Clone the repository
+```bash
+git clone https://github.com/simong2/bet_better.git
+cd bet_better
+```
+2. Set up a firebase project for the flutter app.
+3. Create a .env file and add API keys based on how they are read in lib/firebase_options.dart.
+

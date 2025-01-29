@@ -41,14 +41,31 @@ class AuthService {
     }
   }
 
-  Future updateUserInput(String mode, int newVal) async {
+  // reverse parameter will inverse operation to running sum
+  void updateUserInput(String mode, int newVal, bool reverse) async {
     String uid = _auth.currentUser!.uid;
     final ref = await _db.collection('users').doc(uid).get();
     var preVal = ref[mode];
 
-    return _db.collection('users').doc(uid).update({
+    if (reverse) {
+      _db.collection('users').doc(uid).update({
+        mode: preVal - newVal,
+      });
+      return; // exit
+    }
+    // updates running sum
+    _db.collection('users').doc(uid).update({
       mode: preVal + newVal,
     });
+
+    // logs transaction
+    _db.collection('users').doc(uid).collection('transactions').add(
+      {
+        'type': mode,
+        'amount': newVal,
+        'timestamp': FieldValue.serverTimestamp(),
+      },
+    );
   }
 
   // withdrawals - deposits
@@ -83,5 +100,38 @@ class AuthService {
     String uid = _auth.currentUser!.uid;
     final ref = await _db.collection('users').doc(uid).get();
     return ref[mode];
+  }
+
+  // user history
+  Future<List> getUserHistory() async {
+    String uid = _auth.currentUser!.uid;
+    List data = [];
+    final querySnapshot = await _db
+        .collection('users')
+        .doc(uid)
+        .collection('transactions')
+        .orderBy("timestamp", descending: true)
+        .get();
+
+    for (var docSnapshot in querySnapshot.docs) {
+      var docData = docSnapshot.data();
+      docData['id'] = docSnapshot.id;
+      data.add(docData);
+    }
+    return data;
+  }
+
+  // delete a history
+  Future<void> deleteHistory(String docId, String mode, int newVal) async {
+    String uid = _auth.currentUser!.uid;
+    await _db
+        .collection('users')
+        .doc(uid)
+        .collection('transactions')
+        .doc(docId)
+        .delete();
+
+    // call to update running sum
+    updateUserInput(mode, newVal, true);
   }
 }

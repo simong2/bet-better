@@ -1,8 +1,9 @@
+import 'package:bet_better/screens/history_screen.dart';
 import 'package:bet_better/screens/more_analysis.dart';
-import 'package:bet_better/services/auth.dart';
+import 'package:bet_better/services/firebase_services.dart';
 import 'package:bet_better/widgets/enter_amount_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -27,6 +28,36 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   bool locked = true;
+  late SharedPreferences _prefs;
+
+  void _initPref() async {
+    _prefs = await SharedPreferences.getInstance();
+    _getPref();
+  }
+
+  Future<void> _setPref(bool locked) async {
+    await _prefs.setBool('isLocked', locked);
+    // print('locked value: ${_prefs.getBool('isLocked')}');
+  }
+
+  void _getPref() {
+    try {
+      // make get request
+      setState(() {
+        locked = _prefs.getBool('isLocked')!;
+      });
+    } catch (e) {
+      print('here is the error:\n$e');
+      _setPref(locked);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _initPref();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +72,11 @@ class _MainScreenState extends State<MainScreen> {
         title: const Text('BetBetter'),
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               setState(() {
                 locked = !locked;
               });
+              await _setPref(locked);
             },
             icon: locked
                 ? const Icon(Icons.lock_open_outlined)
@@ -53,41 +85,11 @@ class _MainScreenState extends State<MainScreen> {
 
           IconButton(
             onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (context) {
-                  return FractionallySizedBox(
-                    heightFactor: 0.9,
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(left: 5.0, top: 5.0),
-                              child: Text(
-                                'History',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 30),
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: const Icon(
-                                Icons.close,
-                                size: 35,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                },
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HistoryScreen(),
+                ),
               );
             },
             icon: const Icon(Icons.history),
@@ -149,7 +151,7 @@ class _MainScreenState extends State<MainScreen> {
                                         ? Text(
                                             '\$$result',
                                             style: TextStyle(
-                                              fontSize: width * .082,
+                                              fontSize: width * .075,
                                               fontWeight: FontWeight.bold,
                                               color: ifNeg(result)
                                                   ? Colors.green
@@ -159,7 +161,7 @@ class _MainScreenState extends State<MainScreen> {
                                         : Text(
                                             '*****',
                                             style: TextStyle(
-                                              fontSize: width * .082,
+                                              fontSize: width * .075,
                                             ),
                                           ),
                                   );
@@ -198,7 +200,7 @@ class _MainScreenState extends State<MainScreen> {
                                         ? Text(
                                             '\$$result',
                                             style: TextStyle(
-                                              fontSize: width * .082,
+                                              fontSize: width * .075,
                                               fontWeight: FontWeight.bold,
                                               color: ifNeg(result)
                                                   ? Colors.green
@@ -208,7 +210,7 @@ class _MainScreenState extends State<MainScreen> {
                                         : Text(
                                             '*****',
                                             style: TextStyle(
-                                              fontSize: width * .082,
+                                              fontSize: width * .075,
                                             ),
                                           ),
                                   );
@@ -232,6 +234,7 @@ class _MainScreenState extends State<MainScreen> {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
+                          backgroundColor: Colors.white,
                           title: const Text('Calculations'),
                           content: const Column(
                             mainAxisSize: MainAxisSize.min,
