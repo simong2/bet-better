@@ -1,4 +1,5 @@
-import 'package:bet_better/services/auth.dart';
+import 'package:bet_better/main.dart';
+import 'package:bet_better/services/firebase_services.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -50,41 +51,41 @@ class _MoreAnalysisState extends State<MoreAnalysis> {
                   label: Text('Bar Chart'),
                 ),
                 ButtonSegment(
-                  value: 'Line Chart',
-                  label: Text('Line Chart'),
-                )
+                  value: 'Pie Chart',
+                  label: Text('Pie Chart'),
+                ),
+                // ButtonSegment(
+                //   value: 'Pie Chart',
+                //   label: Text('Pie Chart'),
+                // ),
               ],
               selected: _currChart,
               onSelectionChanged: updateSelected,
             ),
-            const SizedBox(height: 15),
-            _currChart.elementAt(0) == 'Line Chart'
-                ? const Center(
-                    child: Text('Coming soon...'),
-                  )
-                : FutureBuilder(
-                    future: _getUserStats(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Column(
-                          children: [
-                            CircularProgressIndicator(),
-                            Text(
-                              'Building Bar Chart',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ],
-                        );
-                      } else if (snapshot.hasError) {
-                        return const Center(
-                            child: Text('Something went wrong...'));
-                      } else {
-                        return AspectRatio(
-                          aspectRatio: 1.7,
-                          child: BarChart(
+            const SizedBox(height: 25),
+            FutureBuilder(
+              future: _getUserStats(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text('Something went wrong...'));
+                } else {
+                  // getting percentages for pie chart
+                  int total = deposits + wins + losses + withdrawals;
+                  String depositsPercent =
+                      ((deposits / total) * 100).toStringAsFixed(0);
+                  String winsPercent =
+                      ((wins / total) * 100).toStringAsFixed(0);
+                  String lossesPercent =
+                      ((losses / total) * 100).toStringAsFixed(0);
+                  String withdrawalsPercent =
+                      ((withdrawals / total) * 100).toStringAsFixed(0);
+
+                  return AspectRatio(
+                    aspectRatio: 1.7,
+                    child: _currChart.elementAt(0) == 'Bar Chart'
+                        ? BarChart(
                             BarChartData(
                               barGroups: [
                                 BarChartGroupData(
@@ -157,14 +158,110 @@ class _MoreAnalysisState extends State<MoreAnalysis> {
                                 ),
                               ),
                             ),
+                          )
+                        : PieChart(
+                            PieChartData(
+                              sections: [
+                                PieChartSectionData(
+                                  value: deposits.toDouble(),
+                                  title: '$depositsPercent%',
+                                  color: Colors.red,
+                                ),
+                                PieChartSectionData(
+                                  value: withdrawals.toDouble(),
+                                  title: '$withdrawalsPercent%',
+                                  color: Colors.green,
+                                ),
+                                PieChartSectionData(
+                                  value: wins.toDouble(),
+                                  title: '$winsPercent%',
+                                ),
+                                PieChartSectionData(
+                                  value: losses.toDouble(),
+                                  title: '$lossesPercent%',
+                                  color: Colors.purple,
+                                ),
+                              ],
+                            ),
                           ),
-                        );
-                      }
-                    },
-                  ),
+                  );
+                }
+              },
+            ),
+            if (_currChart.elementAt(0) == 'Pie Chart')
+              const SizedBox(height: 30),
+            if (_currChart.elementAt(0) == 'Pie Chart') drawColorsForPie(),
+            if (_currChart.elementAt(0) == 'Pie Chart') showHelperText(),
           ],
         ),
       ),
     );
   }
+}
+
+Widget drawColorsForPie() {
+  return Column(
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            height: 35,
+            width: 35,
+            color: Colors.red,
+          ),
+          Container(
+            height: 35,
+            width: 35,
+            color: Colors.green,
+          ),
+        ],
+      ),
+      const Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text('    Deposits'),
+          Text('Withdrawals '),
+        ],
+      ),
+      const SizedBox(height: 30),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            height: 35,
+            width: 35,
+            color: Colors.cyan,
+          ),
+          Container(
+            height: 35,
+            width: 35,
+            color: Colors.purple,
+          ),
+        ],
+      ),
+      const Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text('  Wins'),
+          Text('Losses'),
+        ],
+      ),
+    ],
+  );
+}
+
+Widget showHelperText() {
+  return const Column(
+    children: [
+      SizedBox(height: 30),
+      Card(
+        color: Colors.white,
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: Text('If there is no pie chart, go back and add data.'),
+        ),
+      )
+    ],
+  );
 }
