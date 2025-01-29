@@ -26,7 +26,7 @@ class _MoreAnalysisState extends State<MoreAnalysis> {
 
   Set<String> _currChart = {'Bar Chart'};
 
-  void updateSelected(Set<String> newSelect) {
+  void _updateSelected(Set<String> newSelect) {
     setState(() {
       _currChart = newSelect;
       // print(_currChart);
@@ -70,7 +70,7 @@ class _MoreAnalysisState extends State<MoreAnalysis> {
                       ),
                     ],
                     selected: _currChart,
-                    onSelectionChanged: updateSelected,
+                    onSelectionChanged: _updateSelected,
                   ),
                   const SizedBox(height: 25),
                   FutureBuilder(
