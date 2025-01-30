@@ -10,7 +10,14 @@ class Chatbot extends StatefulWidget {
 }
 
 class _ChatbotState extends State<Chatbot> {
-  TextEditingController _questionController = TextEditingController();
+  late TextEditingController _questionController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _questionController = TextEditingController();
+  }
 
   Map<int, String> questionList = {
     1: "How do I set a budget for gambling?",
@@ -27,6 +34,13 @@ class _ChatbotState extends State<Chatbot> {
   bool light2 = false;
   bool light3 = false;
   bool light4 = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _questionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +112,7 @@ class _ChatbotState extends State<Chatbot> {
                   builder: (context) {
                     return AlertDialog(
                       backgroundColor: Colors.white,
-                      title: const Text('Add Question'),
+                      title: const Text('Custom Question'),
                       content: TextField(
                         maxLength: 120,
                         maxLines: 3,

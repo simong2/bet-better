@@ -1,5 +1,4 @@
 import 'package:bet_better/screens/chatbot.dart';
-import 'package:bet_better/screens/generate_report.dart';
 import 'package:bet_better/services/firebase_services.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class _MoreAnalysisState extends State<MoreAnalysis> {
 
   Set<String> _currChart = {'Bar Chart'};
 
-  void updateSelected(Set<String> newSelect) {
+  void _updateSelected(Set<String> newSelect) {
     setState(() {
       _currChart = newSelect;
       // print(_currChart);
@@ -45,11 +44,8 @@ class _MoreAnalysisState extends State<MoreAnalysis> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: _currentPage == 0
-            ? const Text('Dashboard')
-            : _currentPage == 1
-                ? const Text('Generate Report')
-                : const Text('ChatBot'),
+        title:
+            _currentPage == 0 ? const Text('Dashboard') : const Text('ChatBot'),
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
@@ -70,7 +66,7 @@ class _MoreAnalysisState extends State<MoreAnalysis> {
                       ),
                     ],
                     selected: _currChart,
-                    onSelectionChanged: updateSelected,
+                    onSelectionChanged: _updateSelected,
                   ),
                   const SizedBox(height: 25),
                   FutureBuilder(
@@ -209,9 +205,7 @@ class _MoreAnalysisState extends State<MoreAnalysis> {
                 ],
               ),
             )
-          : _currentPage == 1
-              ? const GenerateReport()
-              : const Chatbot(),
+          : const Chatbot(),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         items: const [
@@ -220,11 +214,6 @@ class _MoreAnalysisState extends State<MoreAnalysis> {
                 Icons.add_chart,
               ),
               label: 'Charts'),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.outbond,
-              ),
-              label: 'Generate Report'),
           BottomNavigationBarItem(
             icon: Icon(Icons.smart_toy),
             label: 'AI Coach',
