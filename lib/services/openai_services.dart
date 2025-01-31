@@ -1,3 +1,5 @@
+import 'package:bet_better/services/firebase_services.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -6,6 +8,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 String openAIAPI = dotenv.env['OPEN_AI_KEY']!;
 
 Future<String> openAiResponse(String prompt) async {
+  String userAccount = await getUserData();
+  prompt += userAccount;
   try {
     final res = await http.post(
       Uri.parse('https://api.openai.com/v1/chat/completions'),
@@ -38,4 +42,14 @@ Future<String> openAiResponse(String prompt) async {
   } catch (e) {
     return e.toString();
   }
+}
+
+Future<String> getUserData() async {
+  // 4 modes
+  int deposits = await AuthService().getUserStat('deposits');
+  int withdrawals = await AuthService().getUserStat('withdrawals');
+  int winnings = await AuthService().getUserStat('winnings');
+  int losses = await AuthService().getUserStat('losses');
+
+  return 'Users account info: deposits: \$$deposits, withdrawals: \$$withdrawals, winnings: \$$winnings, losses: \$$losses';
 }
