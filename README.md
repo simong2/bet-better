@@ -14,6 +14,7 @@ A Flutter mobile app to track your gambling peformance to better betting habits.
 - Pie Chart
 
 3. Uses Firebase Firestore to store user data, with the ability for users to add/delete entries as needed.
+4. Uses OpenAI GPT-3.5 Turbo API for a gambling assistance chatbot, answering basic gambling questions and personalizing responses with user data.
 
 
 ## Running the app
@@ -23,5 +24,6 @@ git clone https://github.com/simong2/bet_better.git
 cd bet_better
 ```
 2. Set up a firebase project for the flutter app.
-3. Create a .env file and add API keys based on how they are read in lib/firebase_options.dart.
+3. Set up an OpenAI API key.
+4. Create a .env file and add API keys based on how they are read in lib/firebase_options.dart and lib/services/openai_services.dart.
 
